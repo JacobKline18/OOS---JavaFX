@@ -1,4 +1,9 @@
-application\SecondaryController.class
+application\ScoreboardController.class
+application\Main.class
+application\Team.class
+application\Subject.class
 module-info.class
-application\App.class
-application\PrimaryController.class
+application\EditorController.class
+application\ScoreboardController$1.class
+application\TeamData.class
+application\Observer.class
