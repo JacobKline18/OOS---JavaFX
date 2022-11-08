@@ -1,4 +1,4 @@
-package application;
+package application.model;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -9,6 +9,13 @@ public class Team {
     LocalTime lastUpdateTime;
     Boolean isUpdated;
     
+    public Team() {
+        setTeamName("No name provided");
+        setTeamScore(0);
+        setIsUpdated(false);
+        setDate();
+    }
+
     public Team(String teamName, int teamScore) {
         setTeamName(teamName);
         setTeamScore(teamScore);

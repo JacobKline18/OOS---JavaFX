@@ -1,9 +1,12 @@
-package application;
+package application.view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
+import application.viewmodel.ScoreboardModelView;
+import application.model.Observer;
+import application.model.Team;
 
 public class EditorView implements Observer{
     ScoreboardModelView scoreboardModelView;

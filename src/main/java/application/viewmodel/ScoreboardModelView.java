@@ -1,8 +1,10 @@
-package application;
+package application.viewmodel;
 
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import application.model.*;
+import application.view.*;
 
 public class ScoreboardModelView implements Subject{
     private ArrayList<Observer> observers;
@@ -45,22 +47,12 @@ public class ScoreboardModelView implements Subject{
 
         try {
             if (checkTeamName(teamName)) {
-                if (teamName.isEmpty()) {
-                    teamToUpdate.setTeamName("No name provided");
-                }
-                else {
-                    teamToUpdate.setTeamName(teamName);
-                }
+                teamToUpdate.setTeamName(teamName);
                 teamToUpdate.setIsUpdated(true);
                 teamToUpdate.setDate();
             }
             if (checkTeamScore(teamScore)) {
-                if (teamScore.isEmpty()) {
-                    teamToUpdate.setTeamScore(0);
-                }
-                else {
-                    teamToUpdate.setTeamScore(Integer.parseInt(teamScore));
-                }
+                teamToUpdate.setTeamScore(Integer.parseInt(teamScore));
                 teamToUpdate.setIsUpdated(true);
                 teamToUpdate.setDate();
             }
@@ -79,9 +71,6 @@ public class ScoreboardModelView implements Subject{
         Matcher match = nameCondition.matcher(teamName);
         Boolean patternMatch = match.find();
 
-        if (teamName.isEmpty())
-            return true;
-
         if ((teamName.length() < bottomNameLimit) || (teamName.length() > topNameLimit))
             return false;
         
@@ -95,9 +84,6 @@ public class ScoreboardModelView implements Subject{
         int bottomScoreLimit = 0;
         int topScoreLimit = 2000;
         int teamScore;
-
-        if (score.isEmpty())
-            return true;
 
         try {
             teamScore = Integer.parseInt(score);
@@ -116,11 +102,11 @@ public class ScoreboardModelView implements Subject{
 
 
     private void populate() {
-        teamList.add(new Team("Highly Irresistable Lions", 45));
-        teamList.add(new Team("Immovable Tigers", 75));
-        teamList.add(new Team("Super Duper Bears", 100));
-        teamList.add(new Team("Incomparable Otters", 30));
-        teamList.add(new Team("Resplendent Ocelots", 8));
+        teamList.add(new Team());
+        teamList.add(new Team());
+        teamList.add(new Team());
+        teamList.add(new Team());
+        teamList.add(new Team());
     }
 
 }
