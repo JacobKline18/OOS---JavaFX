@@ -9,8 +9,8 @@ import application.model.Observer;
 import application.model.Team;
 
 public class EditorView implements Observer{
-    ScoreboardModelView scoreboardModelView;
-    Team team;
+    private ScoreboardModelView scoreboardModelView;
+    private Team team;
     @FXML
     private TextField myDate;
 

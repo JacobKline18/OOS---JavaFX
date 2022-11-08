@@ -8,7 +8,7 @@ import application.view.*;
 
 public class ScoreboardModelView implements Subject{
     private ArrayList<Observer> observers;
-    ArrayList<Team> teamList;
+    private ArrayList<Team> teamList;
     
     public ScoreboardModelView() {
         observers = new ArrayList<Observer>();
@@ -25,22 +25,26 @@ public class ScoreboardModelView implements Subject{
     public void removeObserver(Observer o) {
         observers.remove(o);
     }
+        
+    public ArrayList<Team> getTeamList() {
+        return teamList;
+    }
 
     @Override
     public void notifyObservers() {
+        Observer tempObserver = null;
+
         for (Observer observer : observers) {
-            if ((observer instanceof EditorView) && (((EditorView) observer).getTeamData().getIsUpdated())){
+            if ((observer instanceof EditorView) && ((EditorView) observer).getTeamData().getIsUpdated()) {
                 observer.update();
-                ((EditorView) observer).getTeamData().setIsUpdated(false);
+                tempObserver = observer;
             }
             else if (observer instanceof ScoreboardView) {
                 observer.update();
             }
         }
-    }
-    
-    public ArrayList<Team> getTeamList() {
-        return teamList;
+        if (tempObserver != null)
+            ((EditorView) tempObserver).getTeamData().setIsUpdated(false);
     }
     
     public void updateTeam(Team teamToUpdate, String teamName, String teamScore) {
@@ -56,14 +60,12 @@ public class ScoreboardModelView implements Subject{
                 teamToUpdate.setIsUpdated(true);
                 teamToUpdate.setDate();
             }
+            notifyObservers();
         } catch(Exception e) {
         }
-
-        notifyObservers();
     }
 
     public Boolean checkTeamName(String teamName) {
-
         int bottomNameLimit = 5;
         int topNameLimit = 50;
 
@@ -87,19 +89,14 @@ public class ScoreboardModelView implements Subject{
 
         try {
             teamScore = Integer.parseInt(score);
-
             if ((teamScore > topScoreLimit) || (teamScore < bottomScoreLimit))
             return false;
         }
         catch (Exception e) {
             return false;
         }
-
         return true;
-
     }
-
-
 
     private void populate() {
         teamList.add(new Team());

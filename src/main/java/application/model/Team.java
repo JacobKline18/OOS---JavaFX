@@ -3,11 +3,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class Team {
-    String teamName;
-    int teamScore;
-    LocalDate lastUpdateDate;
-    LocalTime lastUpdateTime;
-    Boolean isUpdated;
+    private String teamName;
+    private int teamScore;
+    private LocalDate lastUpdateDate;
+    private LocalTime lastUpdateTime;
+    private Boolean isUpdated;
     
     public Team() {
         setTeamName("No name provided");

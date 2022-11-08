@@ -15,50 +15,75 @@ import javafx.stage.Stage;
 import application.model.Observer;
 import application.model.Team;
 import application.viewmodel.ScoreboardModelView;
+import application.Main;
 
 public class ScoreboardView implements Observer{
 
     private ObservableList<Team> teamList;
 
-    final int ROW_HEIGHT = 24;
+    private final int ROW_HEIGHT = 24;
 
-    ScoreboardModelView scoreboardModelView = new ScoreboardModelView();
-
+    private ScoreboardModelView scoreboardModelView = new ScoreboardModelView();
 
     @FXML
     private ListView<Team> myListView;
     
-    
     public void initialize(){
-
         scoreboardModelView.registerObserver(this);
-
         update();
-
     }
 
     @FXML
     void clickTeam(MouseEvent event) {
         Team teamToEdit = myListView.getSelectionModel().getSelectedItem();
+        showTeamEditor(teamToEdit);
+    }
 
+    public void showTeamEditor(Team teamToEdit) {
         if (teamToEdit != null) {
             try {
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("Editor.fxml"));
-                EditorView editorView = new EditorView();
-                fxmlLoader.setController(editorView);
-                editorView.setTeamData(teamToEdit);
-                editorView.setModelView(scoreboardModelView);
-
-                Scene scene = new Scene(fxmlLoader.load(), 400, 150);
-                Stage stage = new Stage();
-                stage.setTitle("Team Editor");
-                stage.setScene(scene);
+                EditorView editorView = createEditorView(teamToEdit, scoreboardModelView);
+                FXMLLoader fxmlLoader = createLoader(editorView);
+                Stage stage = createStage(fxmlLoader);
                 stage.show();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public FXMLLoader createLoader(EditorView editorView) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(Main.class.getResource("Editor.fxml"));
+            fxmlLoader.setController(editorView);
+            return fxmlLoader;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
+        return null;
+    }
+
+    public EditorView createEditorView(Team teamToEdit, ScoreboardModelView scoreboardModelView) {
+        EditorView editorView = new EditorView();
+        editorView.setTeamData(teamToEdit);
+        editorView.setModelView(scoreboardModelView);
+        return editorView;
+    }
+
+    public Stage createStage(FXMLLoader fxmlLoader) {
+        try {
+            Scene scene = new Scene(fxmlLoader.load(), 400, 150);
+            Stage stage = new Stage();
+            stage.setTitle("Team Editor");
+            stage.setScene(scene);
+            return stage;
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
+        return null;
     }
 
     public void update() {
